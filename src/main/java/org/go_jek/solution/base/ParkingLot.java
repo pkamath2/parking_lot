@@ -68,6 +68,14 @@ public class ParkingLot {
 		return reservedSlot;
 	}
 
+	public void leaveSlot(int slotNumber) throws ParkingLotException{
+		if(parkingLot.get(slotNumber) != null){
+			parkingLot.put(slotNumber, null);
+		}else {
+			throw new ParkingLotException("Car not parked in the Parking Lot");
+		}
+	}
+
 	public List<Car> findParkedCarsByColor(String color){
 		List<Car> coloredCars = new ArrayList<>();
 		Set<Integer> slots = parkingLot.keySet();

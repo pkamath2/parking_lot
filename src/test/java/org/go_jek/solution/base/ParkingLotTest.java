@@ -79,6 +79,22 @@ public class ParkingLotTest {
 	}
 
 	@Test
+	public void shouldReduceSizeAfterParkedCarLeavesUsingLeaveAPI() {
+		int capacity = 3;
+		ParkingLot parkingLot = ParkingLot.getInstance();
+		parkingLot.createLotWithCapacity(capacity);
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHB-345", "Blue");
+		parkingLot.parkCar(car1);
+		parkingLot.parkCar(car2);
+		assertEquals("There should be 2 parked cars in the lot.", 2, parkingLot.getSize());
+
+		parkingLot.leaveSlot(2);
+		assertEquals("There should be only 1 parked car in the lot.", 1, parkingLot.getSize());
+	}
+
+	@Test
 	public void shouldThrowExceptionOnUnParkingAnUnknownCar() {
 		int capacity = 3;
 		String message = null;
@@ -93,6 +109,29 @@ public class ParkingLotTest {
 		Car carX = new Car("SHE-345", "UNKNOWN");
 		try {
 			parkingLot.unParkCar(carX);
+		}
+		catch (ParkingLotException e) {
+			message = e.getMessage();
+		}
+		assertEquals("Should not unpark an previously unknown car.", "Car not parked in the Parking Lot", message);
+
+	}
+
+	@Test
+	public void shouldThrowExceptionOnLeavingAnUnparkedSlotLeavesAPI() {
+		int capacity = 3;
+		String message = null;
+		ParkingLot parkingLot = ParkingLot.getInstance();
+		parkingLot.createLotWithCapacity(capacity);
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHB-345", "Blue");
+		parkingLot.parkCar(car1);
+		parkingLot.parkCar(car2);
+
+		Car carX = new Car("SHE-345", "UNKNOWN");
+		try {
+			parkingLot.leaveSlot(3);
 		}
 		catch (ParkingLotException e) {
 			message = e.getMessage();
