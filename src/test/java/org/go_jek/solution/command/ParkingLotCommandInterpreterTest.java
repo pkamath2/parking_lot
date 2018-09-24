@@ -10,6 +10,19 @@ import static org.junit.Assert.*;
 public class ParkingLotCommandInterpreterTest {
 
 	@Test
+	public void shouldFailGracefullyOnNullOrBlankCommand() {
+		String command = null;
+		String message = new ParkingLotCommandInterpreter().executeCommand(command);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:create_parking_lot API should return the exact message", "Error reading command: Incomplete syntax", message);
+
+		command = "";
+		message = new ParkingLotCommandInterpreter().executeCommand(command);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:create_parking_lot API should return the exact message", "Error reading command: Incomplete syntax", message);
+	}
+
+	@Test
 	public void shouldCreateParkingLotOfCapacitySix() {
 		String command = "create_parking_lot 6";
 		String message = new ParkingLotCommandInterpreter().executeCommand(command);
@@ -197,6 +210,20 @@ public class ParkingLotCommandInterpreterTest {
 
 	}
 
+	@Test
+	public void shouldShowIncompleteSyntaxForSlotNumbersWithColor() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command4 = "slot_numbers_for_cars_with_colour";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Error reading command: Incomplete syntax", message);
+
+	}
+
 
 	@Test
 	public void shouldShowSlotNumbersForCarsParkedByRegistration() {
@@ -231,6 +258,93 @@ public class ParkingLotCommandInterpreterTest {
 		message = parkingLotCommandInterpreter.executeCommand(command4);
 
 		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Not found", message);
+
+	}
+
+	@Test
+	public void shouldShowIncompleteSyntaxForNoCarsParkedByRegistration() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command4 = "slot_number_for_registration_number";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Error reading command: Incomplete syntax", message);
+
+	}
+
+
+
+	@Test
+	public void shouldShowRegNumbersForAllWhiteCarsParked() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command1 = "park ABC-123-456 Black";
+		String command2 = "park MH-123-000 White";
+		String command3 = "park HYD-123-007 White";
+		parkingLotCommandInterpreter.executeCommand(command1);
+		parkingLotCommandInterpreter.executeCommand(command2);
+		parkingLotCommandInterpreter.executeCommand(command3);
+
+		String command4 = "registration_numbers_for_cars_with_colour White";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "MH-123-000, HYD-123-007", message);
+
+	}
+
+	@Test
+	public void shouldShowRegNumberNotFoundForNoWhiteCarsParked() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command1 = "park ABC-123-456 Black";
+		String command2 = "park MH-123-000 Gold";
+		String command3 = "park HYD-123-007 Pink";
+		parkingLotCommandInterpreter.executeCommand(command1);
+		parkingLotCommandInterpreter.executeCommand(command2);
+		parkingLotCommandInterpreter.executeCommand(command3);
+
+		String command4 = "registration_numbers_for_cars_with_colour White";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Not found", message);
+
+	}
+
+
+	@Test
+	public void shouldShowREgNumberNotFoundForNoCarsParked() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command4 = "registration_numbers_for_cars_with_colour White";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Not found", message);
+
+	}
+
+	@Test
+	public void shouldShowREgNumberIncompleteSyntax() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command4 = "registration_numbers_for_cars_with_colour";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Error reading command: Incomplete syntax", message);
 
 	}
 

@@ -1,4 +1,4 @@
-package org.go_jek.solution;
+package org.go_jek.solution.base;
 
 import java.util.Arrays;
 import java.util.List;

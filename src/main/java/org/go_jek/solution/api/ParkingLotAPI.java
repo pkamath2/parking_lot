@@ -59,6 +59,9 @@ public class ParkingLotAPI {
 		String message = "";
 
 		List<Car> coloredCars = parkingLot.findParkedCarsByColor(color);
+		if(coloredCars.size() <= 0){
+			message = "Not found";
+		}
 		for (Car car :coloredCars) {
 			message = message + (message.length()>0?", ":"") + car.getRegistration();
 		}

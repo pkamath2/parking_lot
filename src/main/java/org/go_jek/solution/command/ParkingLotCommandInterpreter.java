@@ -17,7 +17,7 @@ public class ParkingLotCommandInterpreter {
 	public String executeCommand(String command){
 		String message = null;
 
-		if (command == null) {
+		if (command == null || command.trim().equals("")) {
 			message = ERROR_INCOMPLETE_SYNTAX;
 		}else {
 			try {
@@ -54,8 +54,6 @@ public class ParkingLotCommandInterpreter {
 				if(command.startsWith("status")) {
 					if (components.length == 1) {
 						message = api.getCarParkStatus();
-					}else {
-						message = ERROR_INCOMPLETE_SYNTAX;
 					}
 				}
 
@@ -72,6 +70,15 @@ public class ParkingLotCommandInterpreter {
 				if(command.startsWith("slot_number_for_registration_number")) {
 					if (components.length == 2) {
 						message = api.findParkedSlotsByCarRegistration(components[1]);
+					}else {
+						message = ERROR_INCOMPLETE_SYNTAX;
+					}
+				}
+
+				//7. slot_number_for_registration_number
+				if(command.startsWith("registration_numbers_for_cars_with_colour")) {
+					if (components.length == 2) {
+						message = api.findCarRegistrationsByColor(components[1]);
 					}else {
 						message = ERROR_INCOMPLETE_SYNTAX;
 					}

@@ -16,17 +16,21 @@ public class ParkingLotCLI {
 
 	public static void main(String[] args) {
 
+		ParkingLotCommandInterpreter commandInterpreter = new ParkingLotCommandInterpreter();
+
 		if(args.length > 0) {
 			List<String> commands = readFile(args[0]);
 			for (String command: commands) {
-				System.out.println(command);
+				String message = commandInterpreter.executeCommand(command);
+				System.out.println(message);
 			}
 		}else {
 			Scanner scanner = new Scanner(System.in);
 
 			while(scanner.hasNextLine()){
 				String command = scanner.nextLine();
-				System.out.println("Consuming input from command line "+command);
+				String message = commandInterpreter.executeCommand(command);
+				System.out.println(message);
 			}
 		}
 	}

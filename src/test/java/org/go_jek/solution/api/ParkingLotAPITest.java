@@ -1,6 +1,5 @@
-package org.go_jek.solution;
+package org.go_jek.solution.api;
 
-import org.go_jek.solution.api.ParkingLotAPI;
 import org.go_jek.solution.bo.Car;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
@@ -142,7 +141,7 @@ public class ParkingLotAPITest {
 		api.parkCar(car4);
 
 		message = api.findCarRegistrationsByColor("White");
-		assertEquals("Must return empty string as there are no white parked cars", "", message);
+		assertEquals("Must return empty string as there are no white parked cars", "Not found", message);
 	}
 
 	@Test
