@@ -13,7 +13,7 @@ public class ParkingLotCLI {
 
 		while(scanner.hasNext()){
 			String command = scanner.nextLine();
-			if(command.split(" ").length == 1) {
+			if(command.endsWith(".txt")) {
 				System.out.println("Consuming input from file");
 			}else{
 				System.out.println("Consuming input from command line");
