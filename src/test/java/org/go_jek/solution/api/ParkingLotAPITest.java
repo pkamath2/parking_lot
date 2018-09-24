@@ -46,6 +46,21 @@ public class ParkingLotAPITest {
 	}
 
 	@Test
+	public void shouldNotParkCarAnAlreadyParkedCarAndReturnFormattedExceptionString() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHC-124", "Red");
+
+		message = api.parkCar(car1);
+		message = api.parkCar(car2);
+		message = api.parkCar(car2);
+		assertEquals("The parkCar API (Exception) should return the exact message", "Car is already parked", message);
+	}
+
+	@Test
 	public void shouldUnParkCarAndReturnFormattedString() {
 		ParkingLotAPI api = new ParkingLotAPI();
 		api.initializeParkingLot(6);

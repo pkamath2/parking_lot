@@ -17,6 +17,7 @@ public class ParkingLot {
 
 	private static ParkingLot instance = new ParkingLot();
 	private Map<Integer, Car> parkingLot = null;
+	private List<String> parkedCarRegistrationList = null; //Internal list for easy computing.
 	private int capacity = 0;
 	private int size = 0;
 
@@ -24,19 +25,24 @@ public class ParkingLot {
 	private ParkingLot() {
 	}
 
-	public void createLotWithCapacity(int initialCapacity){
+	public synchronized void createLotWithCapacity(int initialCapacity){
 		this.capacity 	= initialCapacity;
 		this.parkingLot = new HashMap<>();
+		this.parkedCarRegistrationList = new ArrayList<>();
 		for(int i=1;i<initialCapacity+1;i++){
 			parkingLot.put(i, null);
 		}
 	}
 
-	public int parkCar(Car car) throws ParkingLotException {
+	public synchronized int parkCar(Car car) throws ParkingLotException {
 
 		int reservedSlot = -1;
 		if(getSize() >= capacity) {
 			throw new ParkingLotException("Sorry, parking lot is full");
+		}
+
+		if(parkedCarRegistrationList.contains(car.getRegistration())){
+			throw new ParkingLotException("Car is already parked");
 		}
 
 		Set<Integer> slots = parkingLot.keySet();
@@ -44,6 +50,7 @@ public class ParkingLot {
 			if(parkingLot.get(slot) == null){
 				reservedSlot = slot;
 				parkingLot.put(slot, car);
+				parkedCarRegistrationList.add(car.getRegistration());
 				break;
 			}
 
@@ -51,7 +58,7 @@ public class ParkingLot {
 		return reservedSlot;
 	}
 
-	public int unParkCar(Car car) throws ParkingLotException{
+	public synchronized int unParkCar(Car car) throws ParkingLotException{
 		Set<Integer> slots = parkingLot.keySet();
 		int reservedSlot = -1;
 		for (int slot:slots){
@@ -59,6 +66,7 @@ public class ParkingLot {
 					&& car.getRegistration().equals(parkingLot.get(slot).getRegistration())){
 				reservedSlot = slot;
 				parkingLot.put(slot, null);
+				parkedCarRegistrationList.remove(car.getRegistration());
 				break;
 			}
 		}
@@ -68,8 +76,10 @@ public class ParkingLot {
 		return reservedSlot;
 	}
 
-	public void leaveSlot(int slotNumber) throws ParkingLotException{
+	public synchronized void leaveSlot(int slotNumber) throws ParkingLotException{
 		if(parkingLot.get(slotNumber) != null){
+			Car parkedCar = parkingLot.get(slotNumber);
+			parkedCarRegistrationList.remove(parkedCar.getRegistration());
 			parkingLot.put(slotNumber, null);
 		}else {
 			throw new ParkingLotException("Car not parked in the Parking Lot");
@@ -143,7 +153,7 @@ public class ParkingLot {
 		System.out.println("----------------------------------");
 	}
 
-	public static ParkingLot getInstance() {
+	public static synchronized ParkingLot getInstance() {
 		return instance;
 	}
 
