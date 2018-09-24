@@ -115,4 +115,105 @@ public class ParkingLotAPITest {
 		message = api.findCarRegistrationsByColor("White");
 		assertEquals("Must return empty string as there are no white parked cars", "", message);
 	}
+
+	@Test
+	public void shouldReturnSlotNumbersOfThreeWhiteParkedCars() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "Blue");
+		Car car2 = new Car("SHB-123", "White");
+		Car car3 = new Car("SHD-123", "White");
+		Car car4 = new Car("SHE-123", "White");
+
+		api.parkCar(car1);
+		api.parkCar(car2);
+		api.parkCar(car3);
+		api.parkCar(car4);
+
+		message = api.findParkedSlotsByCarColor("White");
+		assertEquals("Must find all cars which are white", "2, 3, 4", message);
+	}
+
+
+	@Test
+	public void shouldReturnSlotNumberThreeForParkedCarByRegistrationNumber() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "Blue");
+		Car car2 = new Car("SHB-123", "White");
+		Car car3 = new Car("SHD-123", "Gold");
+		Car car4 = new Car("SHE-123", "Black");
+
+		api.parkCar(car1);
+		api.parkCar(car2);
+		api.parkCar(car3);
+		api.parkCar(car4);
+
+		api.unParkCar(car2);
+
+		message = api.findParkedSlotsByCarRegistration("SHD-123");
+		assertEquals("Must find slot for parked car", "3", message);
+	}
+
+
+	@Test
+	public void shouldReturnNotFoundMessageForCarNotParkedByRegistrationNumber() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "Blue");
+		Car car2 = new Car("SHB-123", "White");
+		Car car3 = new Car("SHD-123", "Gold");
+		Car car4 = new Car("SHE-123", "Black");
+
+		api.parkCar(car1);
+		api.parkCar(car2);
+		api.parkCar(car3);
+		api.parkCar(car4);
+
+		api.unParkCar(car2);
+
+		message = api.findParkedSlotsByCarRegistration("SHZZ-123");
+		assertEquals("Must find slot for parked car", "Not found", message);
+	}
+
+	@Test
+	public void shouldReturnStatusMessageWithTwoParkedCars() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "Blue");
+		Car car2 = new Car("SHB-123", "White");
+
+		api.parkCar(car1);
+		api.parkCar(car2);
+
+		message = api.getCarParkStatus();
+		assertEquals("Must find slot for parked car", "Slot No.\tRegistration No\tColour\n1\tSHC-123\tBlue\n2\tSHB-123\tWhite", message);
+	}
+
+	@Test
+	public void shouldReturnStatusMessageWithNoParkedCars() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "Blue");
+		Car car2 = new Car("SHB-123", "White");
+
+		api.parkCar(car1);
+		api.parkCar(car2);
+
+		api.unParkCar(car1);
+		api.unParkCar(car2);
+
+		message = api.getCarParkStatus();
+		assertEquals("Must find slot for parked car", "Slot No.\tRegistration No\tColour", message);
+	}
 }

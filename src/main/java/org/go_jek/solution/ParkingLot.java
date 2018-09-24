@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.go_jek.solution.bo.Car;
+import org.go_jek.solution.bo.ParkingSlot;
 import org.go_jek.solution.execption.ParkingLotException;
 
 /**
@@ -80,6 +81,49 @@ public class ParkingLot {
 			}
 		}
 		return coloredCars;
+	}
+
+	public List<Integer> findParkedSlotsByCarColor(String color){
+		List<Integer> parkedSlots = new ArrayList<>();
+		Set<Integer> slots = parkingLot.keySet();
+		for (Integer slot :slots) {
+			Car parkedCar = parkingLot.get(slot);
+			if(color != null
+					&& parkedCar != null
+					&& parkedCar.getColor() != null
+					&& color.toUpperCase().equals(parkedCar.getColor().toUpperCase())){
+				parkedSlots.add(slot);
+			}
+		}
+		return parkedSlots;
+	}
+
+	public Integer findParkingSlotByCarRegistrationNumber(String registrationNumber){
+		Integer parkedSlot = -1;
+		Set<Integer> slots = parkingLot.keySet();
+		for (Integer slot :slots) {
+			Car parkedCar = parkingLot.get(slot);
+			if(registrationNumber != null
+					&& parkedCar != null
+					&& parkedCar.getRegistration() != null
+					&& registrationNumber.toUpperCase().equals(parkedCar.getRegistration().toUpperCase())){
+				parkedSlot = slot;
+			}
+		}
+		return parkedSlot;
+	}
+
+	public List<ParkingSlot> findAllParkingSlotsWithCars(){
+		List<ParkingSlot> parkingSlots = new ArrayList<>();
+		Set<Integer> slots = parkingLot.keySet();
+		for (Integer slot :slots) {
+			Car parkedCar = parkingLot.get(slot);
+			if(parkedCar != null){
+				ParkingSlot parkingSlot = new ParkingSlot(slot, parkedCar);
+				parkingSlots.add(parkingSlot);
+			}
+		}
+		return parkingSlots;
 	}
 
 	public void printCarParkStatus(){

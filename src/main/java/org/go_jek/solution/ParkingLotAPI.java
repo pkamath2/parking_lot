@@ -3,6 +3,7 @@ package org.go_jek.solution;
 import java.util.List;
 
 import org.go_jek.solution.bo.Car;
+import org.go_jek.solution.bo.ParkingSlot;
 import org.go_jek.solution.execption.ParkingLotException;
 
 /**
@@ -47,6 +48,40 @@ public class ParkingLotAPI {
 		List<Car> coloredCars = parkingLot.findParkedCarsByColor(color);
 		for (Car car :coloredCars) {
 			message = message + (message.length()>0?", ":"") + car.getRegistration();
+		}
+		return message;
+	}
+
+	public String findParkedSlotsByCarColor(String color){
+		String message = "";
+
+		List<Integer> slots = parkingLot.findParkedSlotsByCarColor(color);
+		for (Integer slot :slots) {
+			message = message + (message.length()>0?", ":"") + slot;
+		}
+		return message;
+	}
+
+	public String findParkedSlotsByCarRegistration(String registrationNumber){
+		String message = "";
+
+		Integer parkedSlot = parkingLot.findParkingSlotByCarRegistrationNumber(registrationNumber);
+		if(parkedSlot == -1){
+			message = "Not found";
+		}else{
+			message = parkedSlot.toString();
+		}
+		return message;
+	}
+
+	public String getCarParkStatus(){
+		String message = "Slot No.\tRegistration No\tColour";
+		String slotFormat = "%s\t%s\t%s";
+
+		List<ParkingSlot> parkingSlots= parkingLot.findAllParkingSlotsWithCars();
+		for (ParkingSlot parkingSlot :parkingSlots){
+			message = message + "\n";
+			message = message + String.format(slotFormat, parkingSlot.getSlot(), parkingSlot.getParkedCar().getRegistration(), parkingSlot.getParkedCar().getColor());
 		}
 		return message;
 	}
