@@ -1,0 +1,5 @@
+#My general purpose gitignore
+*.class
+target/*
+.idea/*
+**/node_modules/*
