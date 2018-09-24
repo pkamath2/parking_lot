@@ -37,9 +37,6 @@ public class ParkingLot {
 		}
 
 		Set<Integer> slots = parkingLot.keySet();
-		for (Integer slot: slots) {
-			System.out.println("Status: " + slot + " " + parkingLot.get(slot));
-		}
 		for (Integer slot: slots){
 			if(parkingLot.get(slot) == null){
 				reservedSlot = slot;
@@ -54,7 +51,6 @@ public class ParkingLot {
 	public int unParkCar(Car car) throws ParkingLotException{
 		Set<Integer> slots = parkingLot.keySet();
 		int reservedSlot = -1;
-		System.out.println(slots);
 		for (int slot:slots){
 			if(car.getRegistration().equals(parkingLot.get(slot))){
 				reservedSlot = slot;
@@ -66,6 +62,15 @@ public class ParkingLot {
 			throw new ParkingLotException("Car not parked in the Parking Lot");
 		}
 		return reservedSlot;
+	}
+
+	public void printCarParkStatus(){
+		Set<Integer> slots = parkingLot.keySet();
+		System.out.println("-----------------------");
+		for (Integer slot: slots) {
+			System.out.println("Slot/Car: " + slot + " " + parkingLot.get(slot));
+		}
+		System.out.println("-----------------------");
 	}
 
 	public static ParkingLot getInstance() {
