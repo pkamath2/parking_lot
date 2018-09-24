@@ -14,12 +14,12 @@ public class ParkingLotAPI {
 
 	ParkingLot parkingLot = ParkingLot.getInstance();
 
-	public String initializeParkingLot(int initialCapacity){
+	public String initializeParkingLot(int initialCapacity) {
 		parkingLot.createLotWithCapacity(initialCapacity);
 		return String.format("Created a parking lot with %s slots", initialCapacity);
 	}
 
-	public String parkCar(Car car){
+	public String parkCar(Car car) {
 		String message;
 		try {
 			int slot = parkingLot.parkCar(car);
@@ -31,7 +31,7 @@ public class ParkingLotAPI {
 		return message;
 	}
 
-	public String unParkCar(Car car){
+	public String unParkCar(Car car) {
 		String message;
 		try {
 			int slot = parkingLot.unParkCar(car);
@@ -43,7 +43,7 @@ public class ParkingLotAPI {
 		return message;
 	}
 
-	public String leaveSlot(int slotNumber){
+	public String leaveSlot(int slotNumber) {
 		String message;
 		try {
 			parkingLot.leaveSlot(slotNumber);
@@ -55,50 +55,51 @@ public class ParkingLotAPI {
 		return message;
 	}
 
-	public String findCarRegistrationsByColor(String color){
+	public String findCarRegistrationsByColor(String color) {
 		String message = "";
 
 		List<Car> coloredCars = parkingLot.findParkedCarsByColor(color);
-		if(coloredCars.size() <= 0){
+		if (coloredCars.size() <= 0) {
 			message = "Not found";
 		}
-		for (Car car :coloredCars) {
-			message = message + (message.length()>0?", ":"") + car.getRegistration();
+		for (Car car : coloredCars) {
+			message = message + (message.length() > 0 ? ", " : "") + car.getRegistration();
 		}
 		return message;
 	}
 
-	public String findParkedSlotsByCarColor(String color){
+	public String findParkedSlotsByCarColor(String color) {
 		String message = "";
 
 		List<Integer> slots = parkingLot.findParkedSlotsByCarColor(color);
-		if(slots.size() <= 0){
+		if (slots.size() <= 0) {
 			message = "Not found";
 		}
-		for (Integer slot :slots) {
-			message = message + (message.length()>0?", ":"") + slot;
+		for (Integer slot : slots) {
+			message = message + (message.length() > 0 ? ", " : "") + slot;
 		}
 		return message;
 	}
 
-	public String findParkedSlotsByCarRegistration(String registrationNumber){
+	public String findParkedSlotsByCarRegistration(String registrationNumber) {
 		String message;
 
 		Integer parkedSlot = parkingLot.findParkingSlotByCarRegistrationNumber(registrationNumber);
-		if(parkedSlot == -1){
+		if (parkedSlot == -1) {
 			message = "Not found";
-		}else{
+		}
+		else {
 			message = parkedSlot.toString();
 		}
 		return message;
 	}
 
-	public String getCarParkStatus(){
+	public String getCarParkStatus() {
 		String message = "Slot No.\tRegistration No\tColour";
 		String slotFormat = "%s\t%s\t%s";
 
-		List<ParkingSlot> parkingSlots= parkingLot.findAllParkingSlotsWithCars();
-		for (ParkingSlot parkingSlot :parkingSlots){
+		List<ParkingSlot> parkingSlots = parkingLot.findAllParkingSlotsWithCars();
+		for (ParkingSlot parkingSlot : parkingSlots) {
 			message = message + "\n";
 			message = message + String.format(slotFormat, parkingSlot.getSlot(), parkingSlot.getParkedCar().getRegistration(), parkingSlot.getParkedCar().getColor());
 		}

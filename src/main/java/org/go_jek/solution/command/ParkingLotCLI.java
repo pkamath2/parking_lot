@@ -18,16 +18,17 @@ public class ParkingLotCLI {
 
 		ParkingLotCommandInterpreter commandInterpreter = new ParkingLotCommandInterpreter();
 
-		if(args.length > 0) {
+		if (args.length > 0) {
 			List<String> commands = readFile(args[0]);
-			for (String command: commands) {
+			for (String command : commands) {
 				String message = commandInterpreter.executeCommand(command);
 				System.out.println(message);
 			}
-		}else {
+		}
+		else {
 			Scanner scanner = new Scanner(System.in);
 
-			while(scanner.hasNextLine()){
+			while (scanner.hasNextLine()) {
 				String command = scanner.nextLine();
 				String message = commandInterpreter.executeCommand(command);
 				System.out.println(message);
@@ -35,23 +36,25 @@ public class ParkingLotCLI {
 		}
 	}
 
-	protected static List<String> readFile(String filePath){
+	protected static List<String> readFile(String filePath) {
 		List<String> commands = new ArrayList<>();
 
-		try(FileReader fileReader = new FileReader(new File(filePath));
-			BufferedReader bufferedReader = new BufferedReader(fileReader)){
+		try (FileReader fileReader = new FileReader(new File(filePath));
+			 BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
 			String command = bufferedReader.readLine();
-			while(command != null){
+			while (command != null) {
 				commands.add(command);
 				command = bufferedReader.readLine();
 			}
 
-		}catch (FileNotFoundException fnfe){
-			System.err.println("File Not Found - "+filePath);
+		}
+		catch (FileNotFoundException fnfe) {
+			System.err.println("File Not Found - " + filePath);
 			System.exit(1);
-		}catch (IOException ioe){
-			System.err.println("File could not be opened/read - "+filePath);
+		}
+		catch (IOException ioe) {
+			System.err.println("File could not be opened/read - " + filePath);
 			System.exit(1);
 		}
 		return commands;

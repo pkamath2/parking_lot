@@ -72,7 +72,7 @@ public class ParkingLotAPITest {
 
 		String message = api.unParkCar(car1);
 		assertThat("The unParkCar API should return the exact message", message, CoreMatchers.both(CoreMatchers.startsWith("Slot number"))
-																										.and(CoreMatchers.endsWith("is free")));
+				.and(CoreMatchers.endsWith("is free")));
 	}
 
 	@Test

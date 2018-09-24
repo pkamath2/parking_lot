@@ -25,11 +25,11 @@ public class ParkingLot {
 	private ParkingLot() {
 	}
 
-	public synchronized void createLotWithCapacity(int initialCapacity){
-		this.capacity 	= initialCapacity;
+	public synchronized void createLotWithCapacity(int initialCapacity) {
+		this.capacity = initialCapacity;
 		this.parkingLot = new HashMap<>();
 		this.parkedCarRegistrationList = new ArrayList<>();
-		for(int i=1;i<initialCapacity+1;i++){
+		for (int i = 1; i < initialCapacity + 1; i++) {
 			parkingLot.put(i, null);
 		}
 	}
@@ -37,17 +37,17 @@ public class ParkingLot {
 	public synchronized int parkCar(Car car) throws ParkingLotException {
 
 		int reservedSlot = -1;
-		if(getSize() >= capacity) {
+		if (getSize() >= capacity) {
 			throw new ParkingLotException("Sorry, parking lot is full");
 		}
 
-		if(parkedCarRegistrationList.contains(car.getRegistration())){
+		if (parkedCarRegistrationList.contains(car.getRegistration())) {
 			throw new ParkingLotException("Car is already parked");
 		}
 
 		Set<Integer> slots = parkingLot.keySet();
-		for (Integer slot: slots){
-			if(parkingLot.get(slot) == null){
+		for (Integer slot : slots) {
+			if (parkingLot.get(slot) == null) {
 				reservedSlot = slot;
 				parkingLot.put(slot, car);
 				parkedCarRegistrationList.add(car.getRegistration());
@@ -58,85 +58,86 @@ public class ParkingLot {
 		return reservedSlot;
 	}
 
-	public synchronized int unParkCar(Car car) throws ParkingLotException{
+	public synchronized int unParkCar(Car car) throws ParkingLotException {
 		Set<Integer> slots = parkingLot.keySet();
 		int reservedSlot = -1;
-		for (int slot:slots){
-			if(parkingLot.get(slot) != null
-					&& car.getRegistration().equals(parkingLot.get(slot).getRegistration())){
+		for (int slot : slots) {
+			if (parkingLot.get(slot) != null
+					&& car.getRegistration().equals(parkingLot.get(slot).getRegistration())) {
 				reservedSlot = slot;
 				parkingLot.put(slot, null);
 				parkedCarRegistrationList.remove(car.getRegistration());
 				break;
 			}
 		}
-		if(reservedSlot == -1){
+		if (reservedSlot == -1) {
 			throw new ParkingLotException("Car not parked in the Parking Lot");
 		}
 		return reservedSlot;
 	}
 
-	public synchronized void leaveSlot(int slotNumber) throws ParkingLotException{
-		if(parkingLot.get(slotNumber) != null){
+	public synchronized void leaveSlot(int slotNumber) throws ParkingLotException {
+		if (parkingLot.get(slotNumber) != null) {
 			Car parkedCar = parkingLot.get(slotNumber);
 			parkedCarRegistrationList.remove(parkedCar.getRegistration());
 			parkingLot.put(slotNumber, null);
-		}else {
+		}
+		else {
 			throw new ParkingLotException("Car not parked in the Parking Lot");
 		}
 	}
 
-	public List<Car> findParkedCarsByColor(String color){
+	public List<Car> findParkedCarsByColor(String color) {
 		List<Car> coloredCars = new ArrayList<>();
 		Set<Integer> slots = parkingLot.keySet();
-		for (Integer slot :slots) {
+		for (Integer slot : slots) {
 			Car parkedCar = parkingLot.get(slot);
-			if(color != null
+			if (color != null
 					&& parkedCar != null
 					&& parkedCar.getColor() != null
-					&& color.toUpperCase().equals(parkedCar.getColor().toUpperCase())){
+					&& color.toUpperCase().equals(parkedCar.getColor().toUpperCase())) {
 				coloredCars.add(parkedCar);
 			}
 		}
 		return coloredCars;
 	}
 
-	public List<Integer> findParkedSlotsByCarColor(String color){
+	public List<Integer> findParkedSlotsByCarColor(String color) {
 		List<Integer> parkedSlots = new ArrayList<>();
 		Set<Integer> slots = parkingLot.keySet();
-		for (Integer slot :slots) {
+		for (Integer slot : slots) {
 			Car parkedCar = parkingLot.get(slot);
-			if(color != null
+			if (color != null
 					&& parkedCar != null
 					&& parkedCar.getColor() != null
-					&& color.toUpperCase().equals(parkedCar.getColor().toUpperCase())){
+					&& color.toUpperCase().equals(parkedCar.getColor().toUpperCase())) {
 				parkedSlots.add(slot);
 			}
 		}
 		return parkedSlots;
 	}
 
-	public Integer findParkingSlotByCarRegistrationNumber(String registrationNumber){
+	public Integer findParkingSlotByCarRegistrationNumber(String registrationNumber) {
 		Integer parkedSlot = -1;
 		Set<Integer> slots = parkingLot.keySet();
-		for (Integer slot :slots) {
+		for (Integer slot : slots) {
 			Car parkedCar = parkingLot.get(slot);
-			if(registrationNumber != null
+			if (registrationNumber != null
 					&& parkedCar != null
 					&& parkedCar.getRegistration() != null
-					&& registrationNumber.toUpperCase().equals(parkedCar.getRegistration().toUpperCase())){
+					&& registrationNumber.toUpperCase().equals(parkedCar.getRegistration().toUpperCase())) {
 				parkedSlot = slot;
 			}
 		}
 		return parkedSlot;
 	}
 
-	public List<ParkingSlot> findAllParkingSlotsWithCars(){
+	public List<ParkingSlot> findAllParkingSlotsWithCars() {
 		List<ParkingSlot> parkingSlots = new ArrayList<>();
 		Set<Integer> slots = parkingLot.keySet();
-		for (Integer slot :slots) {
+		for (Integer slot : slots) {
 			Car parkedCar = parkingLot.get(slot);
-			if(parkedCar != null){
+			if (parkedCar != null) {
 				ParkingSlot parkingSlot = new ParkingSlot(slot, parkedCar);
 				parkingSlots.add(parkingSlot);
 			}
@@ -144,10 +145,10 @@ public class ParkingLot {
 		return parkingSlots;
 	}
 
-	public void printCarParkStatus(){
+	public void printCarParkStatus() {
 		Set<Integer> slots = parkingLot.keySet();
 		System.out.println("---------Parking Lot--------------");
-		for (Integer slot: slots) {
+		for (Integer slot : slots) {
 			System.out.println("Slot/Car: " + slot + " " + parkingLot.get(slot));
 		}
 		System.out.println("----------------------------------");

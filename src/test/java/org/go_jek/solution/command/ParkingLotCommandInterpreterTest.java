@@ -276,7 +276,6 @@ public class ParkingLotCommandInterpreterTest {
 	}
 
 
-
 	@Test
 	public void shouldShowRegNumbersForAllWhiteCarsParked() {
 		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();

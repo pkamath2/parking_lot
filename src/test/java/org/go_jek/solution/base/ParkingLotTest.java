@@ -35,8 +35,8 @@ public class ParkingLotTest {
 		parkingLot.createLotWithCapacity(capacity);
 		int slot = parkingLot.parkCar(someCar);
 
-		assertNotEquals("Parking lot capacity should not be "+capacity, capacity, parkingLot.getSize());
-		assertEquals("Parking lot size should be "+1, 1, parkingLot.getSize());
+		assertNotEquals("Parking lot capacity should not be " + capacity, capacity, parkingLot.getSize());
+		assertEquals("Parking lot size should be " + 1, 1, parkingLot.getSize());
 	}
 
 	@Test
@@ -47,8 +47,8 @@ public class ParkingLotTest {
 		String message = null;
 		Car car1 = new Car("SHC-123", "White");
 		Car car2 = new Car("SHB-345", "Blue");
-		Car car3 = new Car("SHA-567","Red");
-		Car car4 = new Car("SHZ-789","Yellow");
+		Car car3 = new Car("SHA-567", "Red");
+		Car car4 = new Car("SHZ-789", "Yellow");
 
 		parkingLot.parkCar(car1);
 		parkingLot.parkCar(car2);
@@ -59,7 +59,7 @@ public class ParkingLotTest {
 		catch (ParkingLotException e) {
 			message = e.getMessage();
 		}
-		assertEquals("Parking more then capacity should throw an exception", message,"Sorry, parking lot is full");
+		assertEquals("Parking more then capacity should throw an exception", message, "Sorry, parking lot is full");
 	}
 
 	@Test
