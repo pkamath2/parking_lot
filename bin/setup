@@ -5,4 +5,4 @@
 #
 # After this is run, bin/parking_lot
 # should Just Work.
-mvn clean package test
+mvn clean test package
