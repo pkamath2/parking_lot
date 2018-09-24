@@ -24,26 +24,41 @@ public class ParkingLot {
 	public void createLotWithCapacity(int initialCapacity){
 		this.capacity 	= initialCapacity;
 		this.parkingLot = new HashMap<>();
+		for(int i=1;i<initialCapacity+1;i++){
+			parkingLot.put(i, null);
+		}
 	}
 
 	public int parkCar(Car car) throws ParkingLotException {
-		int slot = -1;
-		if(parkingLot.size() < capacity) {
-			slot = parkingLot.size() + 1;
-			parkingLot.put(slot, car.getRegistration());
-		}else{
+
+		int reservedSlot = -1;
+		if(getSize() >= capacity) {
 			throw new ParkingLotException("Sorry, parking lot is full");
 		}
-		return slot;
+
+		Set<Integer> slots = parkingLot.keySet();
+		for (Integer slot: slots) {
+			System.out.println("Status: " + slot + " " + parkingLot.get(slot));
+		}
+		for (Integer slot: slots){
+			if(parkingLot.get(slot) == null){
+				reservedSlot = slot;
+				parkingLot.put(slot, car.getRegistration());
+				break;
+			}
+
+		}
+		return reservedSlot;
 	}
 
 	public int unParkCar(Car car) throws ParkingLotException{
 		Set<Integer> slots = parkingLot.keySet();
 		int reservedSlot = -1;
+		System.out.println(slots);
 		for (int slot:slots){
 			if(car.getRegistration().equals(parkingLot.get(slot))){
 				reservedSlot = slot;
-				parkingLot.remove(slot, car.getRegistration());
+				parkingLot.put(slot, null);
 				break;
 			}
 		}
@@ -62,7 +77,7 @@ public class ParkingLot {
 	}
 
 	public int getSize() {
-		this.size = parkingLot.size();
+		this.size = ((int) parkingLot.values().stream().filter((s -> s != null)).count());
 		return size;
 	}
 }

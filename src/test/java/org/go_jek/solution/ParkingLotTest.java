@@ -35,6 +35,7 @@ public class ParkingLotTest {
 
 	@Test
 	public void shouldParkingMoreThanCapacityThrowException() {
+		System.out.println("****");
 		int capacity = 3;
 		ParkingLot parkingLot = ParkingLot.getInstance();
 		parkingLot.createLotWithCapacity(capacity);
@@ -93,5 +94,30 @@ public class ParkingLotTest {
 		}
 		assertEquals("Should not unpark an previously unknown car.", "Car not parked in the Parking Lot", message);
 
+	}
+
+	@Test
+	public void shouldParkCarAtFirstAvailableSlot() {
+		System.out.println("*******");
+		int capacity = 6;
+		ParkingLot parkingLot = ParkingLot.getInstance();
+		parkingLot.createLotWithCapacity(capacity);
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHB-345", "Blue");
+		Car car3 = new Car("SHX-789", "Gold");
+		Car car4 = new Car("SHD-098", "Purple!");
+		parkingLot.parkCar(car1);
+		parkingLot.parkCar(car2);
+		parkingLot.parkCar(car3);
+		parkingLot.parkCar(car4);
+		assertEquals("There should be 4 parked cars in the lot.", 4, parkingLot.getSize());
+
+		parkingLot.unParkCar(car2);
+		//parkingLot.unParkCar(car4);
+
+		Car car5 = new Car("SHW-100", "Red");
+		int slot = parkingLot.parkCar(car5);
+		assertEquals("This car should be parked in slot 2", 2, slot);
 	}
 }
