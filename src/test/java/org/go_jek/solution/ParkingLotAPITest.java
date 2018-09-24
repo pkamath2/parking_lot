@@ -20,17 +20,34 @@ public class ParkingLotAPITest {
 	}
 
 	@Test
+	@SuppressWarnings("Duplicates")
 	public void shouldParkCarAndReturnFormattedString() {
 		ParkingLotAPI api = new ParkingLotAPI();
 		api.initializeParkingLot(6);
 
 		Car car1 = new Car("SHC-123", "White");
-		String message = api.parkCar(car1);
 
+		String message = api.parkCar(car1);
 		assertThat("The parkCar API should return the exact message", message, CoreMatchers.containsString("Allocated slot number:"));
 	}
 
 	@Test
+	@SuppressWarnings("Duplicates")
+	public void shouldParkCarAndReturnFormattedExceptionString() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(1);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHC-124", "Red");
+
+		message = api.parkCar(car1);
+		message = api.parkCar(car2);
+		assertEquals("The parkCar API (Exception) should return the exact message", "Sorry, parking lot is full", message);
+	}
+
+	@Test
+	@SuppressWarnings("Duplicates")
 	public void shouldUnParkCarAndReturnFormattedString() {
 		ParkingLotAPI api = new ParkingLotAPI();
 		api.initializeParkingLot(6);
@@ -43,5 +60,20 @@ public class ParkingLotAPITest {
 		String message = api.unParkCar(car1);
 		assertThat("The unParkCar API should return the exact message", message, CoreMatchers.both(CoreMatchers.startsWith("Slot number"))
 																										.and(CoreMatchers.endsWith("is free")));
+	}
+
+	@Test
+	@SuppressWarnings("Duplicates")
+	public void shouldUnParkCarAndReturnFormattedExceptionString() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHB-123", "Blue");
+		api.parkCar(car1);
+
+		message = api.unParkCar(car2);
+		assertEquals("The unParkCar API (Exception) should return the exact message", "Car not parked in the Parking Lot", message);
 	}
 }
