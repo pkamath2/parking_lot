@@ -3,6 +3,7 @@ package org.go_jek.solution;
 import java.util.Arrays;
 import java.util.List;
 
+import org.go_jek.solution.base.ParkingLot;
 import org.go_jek.solution.bo.Car;
 import org.go_jek.solution.bo.ParkingSlot;
 import org.go_jek.solution.execption.ParkingLotException;

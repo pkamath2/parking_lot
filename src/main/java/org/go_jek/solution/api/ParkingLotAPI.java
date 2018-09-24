@@ -1,7 +1,8 @@
-package org.go_jek.solution;
+package org.go_jek.solution.api;
 
 import java.util.List;
 
+import org.go_jek.solution.base.ParkingLot;
 import org.go_jek.solution.bo.Car;
 import org.go_jek.solution.bo.ParkingSlot;
 import org.go_jek.solution.execption.ParkingLotException;

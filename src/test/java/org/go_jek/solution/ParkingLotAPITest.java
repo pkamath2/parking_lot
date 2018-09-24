@@ -1,7 +1,6 @@
 package org.go_jek.solution;
 
-import java.util.Arrays;
-
+import org.go_jek.solution.api.ParkingLotAPI;
 import org.go_jek.solution.bo.Car;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;

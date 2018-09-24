@@ -1,4 +1,4 @@
-package org.go_jek.solution;
+package org.go_jek.solution.base;
 
 import java.util.ArrayList;
 import java.util.HashMap;

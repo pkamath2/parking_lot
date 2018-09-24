@@ -1,4 +1,4 @@
-package org.go_jek.solution;
+package org.go_jek.solution.command;
 
 import java.util.Scanner;
 
