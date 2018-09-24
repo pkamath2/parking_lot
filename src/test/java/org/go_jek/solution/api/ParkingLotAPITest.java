@@ -62,6 +62,21 @@ public class ParkingLotAPITest {
 	}
 
 	@Test
+	public void shouldLeaveSlotAndReturnFormattedString() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHB-123", "Blue");
+		api.parkCar(car1);
+		api.parkCar(car2);
+
+		String message = api.leaveSlot(1);
+		assertThat("The Leave slot API should return the exact message", message, CoreMatchers.both(CoreMatchers.startsWith("Slot number"))
+				.and(CoreMatchers.endsWith("is free")));
+	}
+
+	@Test
 	public void shouldUnParkCarAndReturnFormattedExceptionString() {
 		ParkingLotAPI api = new ParkingLotAPI();
 		api.initializeParkingLot(6);
@@ -72,6 +87,21 @@ public class ParkingLotAPITest {
 		api.parkCar(car1);
 
 		message = api.unParkCar(car2);
+		assertEquals("The unParkCar API (Exception) should return the exact message", "Car not parked in the Parking Lot", message);
+	}
+
+	@Test
+	public void shouldLeaveSlotAndReturnFormattedExceptionString() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHB-123", "Blue");
+		api.parkCar(car1);
+		api.parkCar(car2);
+
+		message = api.leaveSlot(3);
 		assertEquals("The unParkCar API (Exception) should return the exact message", "Car not parked in the Parking Lot", message);
 	}
 

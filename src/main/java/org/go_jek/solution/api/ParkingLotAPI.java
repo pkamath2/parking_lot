@@ -43,6 +43,18 @@ public class ParkingLotAPI {
 		return message;
 	}
 
+	public String leaveSlot(int slotNumber){
+		String message;
+		try {
+			parkingLot.leaveSlot(slotNumber);
+			message = String.format("Slot number %s is free", slotNumber);
+		}
+		catch (ParkingLotException e) {
+			message = e.getMessage();
+		}
+		return message;
+	}
+
 	public String findCarRegistrationsByColor(String color){
 		String message = "";
 
@@ -57,6 +69,9 @@ public class ParkingLotAPI {
 		String message = "";
 
 		List<Integer> slots = parkingLot.findParkedSlotsByCarColor(color);
+		if(slots.size() <= 0){
+			message = "Not found";
+		}
 		for (Integer slot :slots) {
 			message = message + (message.length()>0?", ":"") + slot;
 		}
@@ -64,7 +79,7 @@ public class ParkingLotAPI {
 	}
 
 	public String findParkedSlotsByCarRegistration(String registrationNumber){
-		String message = "";
+		String message;
 
 		Integer parkedSlot = parkingLot.findParkingSlotByCarRegistrationNumber(registrationNumber);
 		if(parkedSlot == -1){

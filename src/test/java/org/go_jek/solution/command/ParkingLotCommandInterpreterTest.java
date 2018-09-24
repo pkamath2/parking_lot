@@ -60,6 +60,178 @@ public class ParkingLotCommandInterpreterTest {
 	}
 
 
+	@Test
+	public void shouldFreeRequestedSlotInParkingLot() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
 
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command1 = "park ABC-123-456 Black";
+		String command2 = "park MH-123-000 Blue";
+		parkingLotCommandInterpreter.executeCommand(command1);
+		parkingLotCommandInterpreter.executeCommand(command2);
+
+		String command3 = "leave 2";
+		message = parkingLotCommandInterpreter.executeCommand(command3);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Slot number 2 is free", message);
+
+	}
+
+	@Test
+	public void shouldNotLeaveParkingLotIncorrectSyntax() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		parkingLotCommandInterpreter.executeCommand(command);
+
+		String command1 = "park ABC-123-456 Black";
+		String command2 = "park MH-123-000 Blue";
+		parkingLotCommandInterpreter.executeCommand(command1);
+		parkingLotCommandInterpreter.executeCommand(command2);
+
+		String command3 = "leave $";
+		String message = parkingLotCommandInterpreter.executeCommand(command3);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:create_parking_lot API should return an error message", "Error reading command: Incorrect syntax", message);
+	}
+
+	@Test
+	public void shouldNotLeaveParkingLotIncompleteSyntax() {
+		String command = "leave";
+		String message = new ParkingLotCommandInterpreter().executeCommand(command);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:create_parking_lot API should return an error message", "Error reading command: Incomplete syntax", message);
+	}
+
+
+	@Test
+	public void shouldShowStatusWithAllCarsParked() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command1 = "park ABC-123-456 Black";
+		String command2 = "park MH-123-000 Blue";
+		parkingLotCommandInterpreter.executeCommand(command1);
+		parkingLotCommandInterpreter.executeCommand(command2);
+
+		String command3 = "status";
+		message = parkingLotCommandInterpreter.executeCommand(command3);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Slot No.\tRegistration No\tColour\n1\tABC-123-456\tBlack\n2\tMH-123-000\tBlue", message);
+
+	}
+
+	@Test
+	public void shouldShowStatusWithNoCarsParked() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command3 = "status";
+		message = parkingLotCommandInterpreter.executeCommand(command3);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Slot No.\tRegistration No\tColour", message);
+
+	}
+
+
+	@Test
+	public void shouldShowSlotNumbersForAllWhiteCarsParked() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command1 = "park ABC-123-456 Black";
+		String command2 = "park MH-123-000 White";
+		String command3 = "park HYD-123-007 White";
+		parkingLotCommandInterpreter.executeCommand(command1);
+		parkingLotCommandInterpreter.executeCommand(command2);
+		parkingLotCommandInterpreter.executeCommand(command3);
+
+		String command4 = "slot_numbers_for_cars_with_colour White";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "2, 3", message);
+
+	}
+
+	@Test
+	public void shouldShowNotFoundForNoWhiteCarsParked() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command1 = "park ABC-123-456 Black";
+		String command2 = "park MH-123-000 Gold";
+		String command3 = "park HYD-123-007 Pink";
+		parkingLotCommandInterpreter.executeCommand(command1);
+		parkingLotCommandInterpreter.executeCommand(command2);
+		parkingLotCommandInterpreter.executeCommand(command3);
+
+		String command4 = "slot_numbers_for_cars_with_colour White";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Not found", message);
+
+	}
+
+
+	@Test
+	public void shouldShowNotFoundForNoCarsParked() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command4 = "slot_numbers_for_cars_with_colour White";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Not found", message);
+
+	}
+
+
+	@Test
+	public void shouldShowSlotNumbersForCarsParkedByRegistration() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command1 = "park ABC-123-456 Black";
+		String command2 = "park MH-123-000 White";
+		String command3 = "park HYD-123-007 White";
+		parkingLotCommandInterpreter.executeCommand(command1);
+		parkingLotCommandInterpreter.executeCommand(command2);
+		parkingLotCommandInterpreter.executeCommand(command3);
+
+		String command4 = "slot_number_for_registration_number ABC-123-456";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "1", message);
+
+	}
+
+
+	@Test
+	public void shouldShowNotFoundForNoCarsParkedByRegistration() {
+		ParkingLotCommandInterpreter parkingLotCommandInterpreter = new ParkingLotCommandInterpreter();
+
+		String command = "create_parking_lot 6";
+		String message = parkingLotCommandInterpreter.executeCommand(command);
+
+		String command4 = "slot_number_for_registration_number ABC-123-456";
+		message = parkingLotCommandInterpreter.executeCommand(command4);
+
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Not found", message);
+
+	}
 
 }

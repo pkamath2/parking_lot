@@ -44,7 +44,7 @@ public class ParkingLotCommandInterpreter {
 				//3. leave
 				if(command.startsWith("leave")) {
 					if (components.length == 2) {
-						//message = api.parkCar(new Car(components[1], components[2]));
+						message = api.leaveSlot(Integer.parseInt(components[1]));
 					}else {
 						message = ERROR_INCOMPLETE_SYNTAX;
 					}
