@@ -8,8 +8,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-		ParkingLotTest.class,
-		ParkingLotAPITest.class
+		org.go_jek.solution.ParkingLotTest.class,
+		org.go_jek.solution.ParkingLotAPITest.class
 })
 public class ParkingLotTestSuite {
 }

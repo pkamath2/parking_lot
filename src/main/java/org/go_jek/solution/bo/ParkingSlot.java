@@ -17,15 +17,8 @@ public class ParkingSlot {
 		return slot;
 	}
 
-	public void setSlot(Integer slot) {
-		this.slot = slot;
-	}
-
 	public Car getParkedCar() {
 		return parkedCar;
 	}
 
-	public void setParkedCar(Car parkedCar) {
-		this.parkedCar = parkedCar;
-	}
 }
