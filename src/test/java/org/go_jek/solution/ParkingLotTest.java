@@ -1,5 +1,7 @@
 package org.go_jek.solution;
 
+import java.util.List;
+
 import org.go_jek.solution.bo.Car;
 import org.go_jek.solution.execption.ParkingLotException;
 import org.junit.Test;
@@ -9,6 +11,7 @@ import static org.junit.Assert.*;
 /**
  *   Author: purnimakamath
  */
+@SuppressWarnings("Duplicates")
 public class ParkingLotTest {
 
 	@Test
@@ -120,5 +123,86 @@ public class ParkingLotTest {
 		int slot = parkingLot.parkCar(car5);
 		assertEquals("This car should be parked in slot 2", 2, slot);
 		parkingLot.printCarParkStatus();
+	}
+
+	@Test
+	public void shouldReturnOneCarForOneParkedWhiteCar() {
+		int capacity = 6;
+		ParkingLot parkingLot = ParkingLot.getInstance();
+		parkingLot.createLotWithCapacity(capacity);
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHB-345", "Blue");
+		Car car3 = new Car("SHX-789", "Gold");
+		Car car4 = new Car("SHD-098", "Purple!");
+		parkingLot.parkCar(car1);
+		parkingLot.parkCar(car2);
+		parkingLot.parkCar(car3);
+		parkingLot.parkCar(car4);
+		parkingLot.printCarParkStatus();
+
+		List<Car> cars = parkingLot.findParkedCarsByColor("White");
+		assertEquals("There should be One white car parked in the lot. ", 1, cars.size());
+		assertEquals("There should be One white car with this registration parked in the lot. ", car1.getRegistration(), cars.get(0).getRegistration());
+	}
+
+	@Test
+	public void shouldReturnThreeCarsForThreeParkedWhiteCars() {
+		int capacity = 6;
+		ParkingLot parkingLot = ParkingLot.getInstance();
+		parkingLot.createLotWithCapacity(capacity);
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHB-345", "White");
+		Car car3 = new Car("SHX-789", "White");
+		Car car4 = new Car("SHD-098", "Purple!");
+		parkingLot.parkCar(car1);
+		parkingLot.parkCar(car2);
+		parkingLot.parkCar(car3);
+		parkingLot.parkCar(car4);
+		parkingLot.printCarParkStatus();
+
+		List<Car> cars = parkingLot.findParkedCarsByColor("White");
+		assertEquals("There should be One white car parked in the lot. ", 3, cars.size());
+	}
+
+	@Test
+	public void shouldReturnNoCarsForNoneParkedWhiteCar() {
+		int capacity = 6;
+		ParkingLot parkingLot = ParkingLot.getInstance();
+		parkingLot.createLotWithCapacity(capacity);
+
+		Car car1 = new Car("SHB-345", "Blue");
+		Car car2 = new Car("SHX-789", "Gold");
+		Car car3 = new Car("SHD-098", "Purple!");
+		parkingLot.parkCar(car1);
+		parkingLot.parkCar(car2);
+		parkingLot.parkCar(car3);
+		parkingLot.printCarParkStatus();
+
+		List<Car> cars = parkingLot.findParkedCarsByColor("White");
+		assertEquals("There should be No white car parked in the lot. ", 0, cars.size());
+	}
+
+	@Test
+	public void shouldReturnThreeCarsForThreeParkedWhiteCarsAfterUnParking() {
+		int capacity = 6;
+		ParkingLot parkingLot = ParkingLot.getInstance();
+		parkingLot.createLotWithCapacity(capacity);
+
+		Car car1 = new Car("SHC-123", "White");
+		Car car2 = new Car("SHB-345", "White");
+		Car car3 = new Car("SHX-789", "White");
+		Car car4 = new Car("SHD-098", "White");
+		parkingLot.parkCar(car1);
+		parkingLot.parkCar(car2);
+		parkingLot.parkCar(car3);
+		parkingLot.parkCar(car4);
+
+		parkingLot.unParkCar(car2);
+		parkingLot.printCarParkStatus();
+
+		List<Car> cars = parkingLot.findParkedCarsByColor("White");
+		assertEquals("There should be One white car parked in the lot. ", 3, cars.size());
 	}
 }

@@ -1,6 +1,8 @@
 package org.go_jek.solution;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,7 +15,7 @@ import org.go_jek.solution.execption.ParkingLotException;
 public class ParkingLot {
 
 	private static ParkingLot instance = new ParkingLot();
-	private Map<Integer, String> parkingLot = null;
+	private Map<Integer, Car> parkingLot = null;
 	private int capacity = 0;
 	private int size = 0;
 
@@ -40,7 +42,7 @@ public class ParkingLot {
 		for (Integer slot: slots){
 			if(parkingLot.get(slot) == null){
 				reservedSlot = slot;
-				parkingLot.put(slot, car.getRegistration());
+				parkingLot.put(slot, car);
 				break;
 			}
 
@@ -52,7 +54,8 @@ public class ParkingLot {
 		Set<Integer> slots = parkingLot.keySet();
 		int reservedSlot = -1;
 		for (int slot:slots){
-			if(car.getRegistration().equals(parkingLot.get(slot))){
+			if(parkingLot.get(slot) != null
+					&& car.getRegistration().equals(parkingLot.get(slot).getRegistration())){
 				reservedSlot = slot;
 				parkingLot.put(slot, null);
 				break;
@@ -64,13 +67,28 @@ public class ParkingLot {
 		return reservedSlot;
 	}
 
+	public List<Car> findParkedCarsByColor(String color){
+		List<Car> coloredCars = new ArrayList<>();
+		Set<Integer> slots = parkingLot.keySet();
+		for (Integer slot :slots) {
+			Car parkedCar = parkingLot.get(slot);
+			if(color != null
+					&& parkedCar != null
+					&& parkedCar.getColor() != null
+					&& color.toUpperCase().equals(parkedCar.getColor().toUpperCase())){
+				coloredCars.add(parkedCar);
+			}
+		}
+		return coloredCars;
+	}
+
 	public void printCarParkStatus(){
 		Set<Integer> slots = parkingLot.keySet();
-		System.out.println("-----------------------");
+		System.out.println("---------Parking Lot--------------");
 		for (Integer slot: slots) {
 			System.out.println("Slot/Car: " + slot + " " + parkingLot.get(slot));
 		}
-		System.out.println("-----------------------");
+		System.out.println("----------------------------------");
 	}
 
 	public static ParkingLot getInstance() {

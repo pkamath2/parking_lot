@@ -1,5 +1,7 @@
 package org.go_jek.solution;
 
+import java.util.Arrays;
+
 import org.go_jek.solution.bo.Car;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
@@ -9,6 +11,7 @@ import static org.junit.Assert.*;
 /**
  *   Author: purnimakamath
  */
+@SuppressWarnings("Duplicates")
 public class ParkingLotAPITest {
 
 	@Test
@@ -20,7 +23,6 @@ public class ParkingLotAPITest {
 	}
 
 	@Test
-	@SuppressWarnings("Duplicates")
 	public void shouldParkCarAndReturnFormattedString() {
 		ParkingLotAPI api = new ParkingLotAPI();
 		api.initializeParkingLot(6);
@@ -32,7 +34,6 @@ public class ParkingLotAPITest {
 	}
 
 	@Test
-	@SuppressWarnings("Duplicates")
 	public void shouldParkCarAndReturnFormattedExceptionString() {
 		ParkingLotAPI api = new ParkingLotAPI();
 		api.initializeParkingLot(1);
@@ -47,7 +48,6 @@ public class ParkingLotAPITest {
 	}
 
 	@Test
-	@SuppressWarnings("Duplicates")
 	public void shouldUnParkCarAndReturnFormattedString() {
 		ParkingLotAPI api = new ParkingLotAPI();
 		api.initializeParkingLot(6);
@@ -63,7 +63,6 @@ public class ParkingLotAPITest {
 	}
 
 	@Test
-	@SuppressWarnings("Duplicates")
 	public void shouldUnParkCarAndReturnFormattedExceptionString() {
 		ParkingLotAPI api = new ParkingLotAPI();
 		api.initializeParkingLot(6);
@@ -75,5 +74,45 @@ public class ParkingLotAPITest {
 
 		message = api.unParkCar(car2);
 		assertEquals("The unParkCar API (Exception) should return the exact message", "Car not parked in the Parking Lot", message);
+	}
+
+	@Test
+	public void shouldReturnRegistrationNumbersOfThreeWhiteParkedCars() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "Blue");
+		Car car2 = new Car("SHB-123", "White");
+		Car car3 = new Car("SHD-123", "White");
+		Car car4 = new Car("SHE-123", "White");
+
+		api.parkCar(car1);
+		api.parkCar(car2);
+		api.parkCar(car3);
+		api.parkCar(car4);
+
+		message = api.findCarRegistrationsByColor("White");
+		assertEquals("Must find all cars which are white", "SHB-123, SHD-123, SHE-123", message);
+	}
+
+	@Test
+	public void shouldReturnNoRegistrationNumbersForNoWhiteParkedCars() {
+		ParkingLotAPI api = new ParkingLotAPI();
+		api.initializeParkingLot(6);
+		String message = null;
+
+		Car car1 = new Car("SHC-123", "Blue");
+		Car car2 = new Car("SHB-123", "Red");
+		Car car3 = new Car("SHD-123", "Yellow");
+		Car car4 = new Car("SHE-123", "Blue");
+
+		api.parkCar(car1);
+		api.parkCar(car2);
+		api.parkCar(car3);
+		api.parkCar(car4);
+
+		message = api.findCarRegistrationsByColor("White");
+		assertEquals("Must return empty string as there are no white parked cars", "", message);
 	}
 }

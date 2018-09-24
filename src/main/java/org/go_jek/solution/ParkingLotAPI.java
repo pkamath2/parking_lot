@@ -1,5 +1,7 @@
 package org.go_jek.solution;
 
+import java.util.List;
+
 import org.go_jek.solution.bo.Car;
 import org.go_jek.solution.execption.ParkingLotException;
 
@@ -35,6 +37,16 @@ public class ParkingLotAPI {
 		}
 		catch (ParkingLotException e) {
 			message = e.getMessage();
+		}
+		return message;
+	}
+
+	public String findCarRegistrationsByColor(String color){
+		String message = "";
+
+		List<Car> coloredCars = parkingLot.findParkedCarsByColor(color);
+		for (Car car :coloredCars) {
+			message = message + (message.length()>0?", ":"") + car.getRegistration();
 		}
 		return message;
 	}
