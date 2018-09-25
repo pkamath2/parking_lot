@@ -1,5 +1,8 @@
 package org.go_jek.solution.command;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.go_jek.solution.api.ParkingLotAPI;
 import org.go_jek.solution.bo.Car;
 
@@ -10,6 +13,7 @@ public class ParkingLotCommandInterpreter {
 
 	private static String ERROR_INCORRECT_SYNTAX = "Error reading command: Incorrect syntax";
 	private static String ERROR_INCOMPLETE_SYNTAX = "Error reading command: Incomplete syntax";
+	private static List<String> ALL_COMMANDS = Arrays.asList("create_parking_lot","park","leave","status","slot_numbers_for_cars_with_colour","slot_number_for_registration_number","registration_numbers_for_cars_with_colour","exit");
 
 	private ParkingLotAPI api = new ParkingLotAPI();
 
@@ -59,6 +63,9 @@ public class ParkingLotCommandInterpreter {
 					if (components.length == 1) {
 						message = api.getCarParkStatus();
 					}
+					else {
+						message = ERROR_INCOMPLETE_SYNTAX;
+					}
 				}
 
 				//5. slot_numbers_for_cars_with_colour
@@ -94,6 +101,11 @@ public class ParkingLotCommandInterpreter {
 				//8. exit
 				if (command.startsWith("exit")) {
 					System.exit(0);
+				}
+
+				//9. Final condition - if command belongs to no pre-existing set
+				if (!ALL_COMMANDS.contains(components[0])){
+					message = ERROR_INCORRECT_SYNTAX;
 				}
 
 			}
