@@ -134,7 +134,7 @@ public class ParkingLotCommandInterpreterTest {
 		String command3 = "status";
 		message = parkingLotCommandInterpreter.executeCommand(command3);
 
-		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Slot No.\tRegistration No\tColour\n1\tABC-123-456\tBlack\n2\tMH-123-000\tBlue", message);
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Slot No.    Registration No    Colour\n1           ABC-123-456      Black\n2           MH-123-000      Blue", message);
 
 	}
 
@@ -148,7 +148,7 @@ public class ParkingLotCommandInterpreterTest {
 		String command3 = "status";
 		message = parkingLotCommandInterpreter.executeCommand(command3);
 
-		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Slot No.\tRegistration No\tColour", message);
+		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Slot No.    Registration No    Colour", message);
 
 	}
 
@@ -272,9 +272,7 @@ public class ParkingLotCommandInterpreterTest {
 		message = parkingLotCommandInterpreter.executeCommand(command4);
 
 		assertEquals("The ParkingLotCommandInterpreter.executeCommand:park API should return the exact message", "Error reading command: Incomplete syntax", message);
-
 	}
-
 
 	@Test
 	public void shouldShowRegNumbersForAllWhiteCarsParked() {

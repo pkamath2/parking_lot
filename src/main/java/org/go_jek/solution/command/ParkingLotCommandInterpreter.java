@@ -91,6 +91,11 @@ public class ParkingLotCommandInterpreter {
 					}
 				}
 
+				//8. exit
+				if (command.startsWith("exit")) {
+					System.exit(0);
+				}
+
 			}
 			catch (Exception e) {
 				message = ERROR_INCORRECT_SYNTAX;

@@ -95,8 +95,9 @@ public class ParkingLotAPI {
 	}
 
 	public String getCarParkStatus() {
-		String message = "Slot No.\tRegistration No\tColour";
-		String slotFormat = "%s\t%s\t%s";
+		//The weird formatting of the string below (with spaces instead of \t) is to fit the functional spec/test cases.
+		String message = "Slot No.    Registration No    Colour";
+		String slotFormat = "%s           %s      %s";
 
 		List<ParkingSlot> parkingSlots = parkingLot.findAllParkingSlotsWithCars();
 		for (ParkingSlot parkingSlot : parkingSlots) {

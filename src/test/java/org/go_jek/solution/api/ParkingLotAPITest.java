@@ -72,7 +72,7 @@ public class ParkingLotAPITest {
 
 		String message = api.unParkCar(car1);
 		assertThat("The unParkCar API should return the exact message", message, CoreMatchers.both(CoreMatchers.startsWith("Slot number"))
-				.and(CoreMatchers.endsWith("is free")));
+																										.and(CoreMatchers.endsWith("is free")));
 	}
 
 	@Test
@@ -238,7 +238,7 @@ public class ParkingLotAPITest {
 		api.parkCar(car2);
 
 		message = api.getCarParkStatus();
-		assertEquals("Must find slot for parked car", "Slot No.\tRegistration No\tColour\n1\tSHC-123\tBlue\n2\tSHB-123\tWhite", message);
+		assertEquals("Must find slot for parked car", "Slot No.    Registration No    Colour\n1           SHC-123      Blue\n2           SHB-123      White", message);
 	}
 
 	@Test
@@ -257,6 +257,6 @@ public class ParkingLotAPITest {
 		api.unParkCar(car2);
 
 		message = api.getCarParkStatus();
-		assertEquals("Must find slot for parked car", "Slot No.\tRegistration No\tColour", message);
+		assertEquals("Must find slot for parked car", "Slot No.    Registration No    Colour", message);
 	}
 }
