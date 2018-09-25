@@ -7,9 +7,9 @@ This parking lot assignment works with the following software packages. Of these
 * Maven 3.3.9
 
 ### Setup
-`bin/setup` downloads JUnit dependencies, builds the project and runs the tests. 
-`bin/parking_lot functional_spec/fixtures/file_input.txt` executes the program in batch mode.
-`bin/parking_lot` executes the program in interactive mode.
+`bin/setup` downloads JUnit dependencies, builds the project and runs the tests.  
+`bin/parking_lot functional_spec/fixtures/file_input.txt` executes the program in batch mode.  
+`bin/parking_lot` executes the program in interactive mode.  
 
 ### Design
 Some of the important classes and their explanation
